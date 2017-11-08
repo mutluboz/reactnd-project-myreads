@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Book from './book'
+import Book from './Book'
 import PropTypes from 'prop-types'
 import * as  Helpers from '../Helpers'
 
@@ -20,7 +20,7 @@ class Shelf extends Component {
                             <ol className="books-grid">
                                 {shelfs[shelf].map((book) => (
                                     <li key={book.id}>
-                                        <Book book={book} />
+                                        <Book book={book} onUpdateBook={this.props.onUpdateBook} />
                                     </li>
                                 ))}
                             </ol>

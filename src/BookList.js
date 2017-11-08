@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Shelf from './components/shelf'
+import Shelf from './components/Shelf'
 import PropTypes from 'prop-types'
 
 class BookList extends Component {
@@ -15,7 +15,7 @@ class BookList extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <Shelf books={this.props.books}/>
+                        <Shelf books={this.props.books} onUpdateBook={this.props.onUpdateBook}/>
                     </div>
                     <div className="open-search">
                         <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
