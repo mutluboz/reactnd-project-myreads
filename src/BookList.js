@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import Shelf from './components/Shelf'
 import PropTypes from 'prop-types'
+import { GroupBy } from './Helpers'
+import { Link } from 'react-router-dom'
 
 class BookList extends Component {
     static propTypes = {
@@ -8,6 +10,8 @@ class BookList extends Component {
     }
 
     render() {
+        const shelfs = GroupBy(this.props.books, 'shelf')
+
         return (
             <div className="list-books">
                 <div className="list-books-title">
@@ -15,10 +19,12 @@ class BookList extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        <Shelf books={this.props.books} onUpdateBook={this.props.onUpdateBook}/>
+                        {Object.keys(shelfs).map((shelf) => (
+                            <Shelf key={shelf} books={shelfs[shelf]} shelfName={shelf} onUpdateBook={this.props.onUpdateBook} />
+                        ))}
                     </div>
                     <div className="open-search">
-                        <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+                        <Link to='/search'>Add a book</Link>
                     </div>
                 </div>
             </div>

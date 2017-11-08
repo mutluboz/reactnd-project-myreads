@@ -22,18 +22,27 @@ class BooksApp extends React.Component {
     //todo:consider api errors
     BooksAPI.update(book, newShelf);
 
-    //state should be immutable. Create a new array from state with map and update the record
-    const newBooks = this.state.books.map((b) => (
-      b.id === book.id ? Object.assign({}, b, { "shelf": newShelf }) : b
-    ));
+    let newBooks = [];
+
+    //todo: fix buggy
+    if (this.state.books.indexOf(b => b.id === book.id) > -1) {//update existing book
+      //state should be immutable. Create a new array from state with map and update the record
+      newBooks = this.state.books.map((b) => (
+        b.id === book.id ? Object.assign({}, b, { "shelf": newShelf }) : b
+      ));
+    } else { //add a new book to state
+      newBooks = this.state.books.slice();
+      book.shelf = newShelf;
+      newBooks.push(book);
+    }
 
     this.setState({
       books: newBooks.filter(b => b.shelf !== 'none')
     })
   }
 
-  searchBooks = (searchCriteria) =>{
-    //todo: perform Api Call
+  searchBooks = (searchCriteria) => {
+    return BooksAPI.search(searchCriteria, 10000);
   }
 
   render() {

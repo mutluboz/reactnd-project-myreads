@@ -1,18 +1,35 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import Shelf from './components/Shelf'
 
 class SearchBook extends Component {
+    state = {
+        query: '',
+        searchResult: []
+    }
+
+    Search = (criteria) => {
+        if (criteria) {
+            this.props.onSearchBooks(criteria).then((searchResult) => (
+                this.setState({ searchResult })
+            ))
+        }
+    }
+
     render() {
         return (
             <div className="search-books" >
                 <div className="search-books-bar">
-                    <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
+                    <Link className="close-search" to='/'>Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input type="text" placeholder="Search by title or author" />
+                        <input
+                            type="text"
+                            onKeyDown={(event) => this.Search(event.target.value)}
+                            placeholder="Search by title or author"
+                        />
                     </div>
                 </div>
-                <div className="search-books-results">
-                    <ol className="books-grid"></ol>
-                </div>
+                <Shelf books={this.state.searchResult} onUpdateBook={this.props.onUpdateBook} />
             </div>
         )
     }

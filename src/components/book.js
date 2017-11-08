@@ -14,7 +14,8 @@ class Book extends Component {
                     <ShelfPicker onUpdateBook={onUpdateBook} book={book} />
                 </div>
                 <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.authors.join('&')}</div>
+                {/*check book.authors for null to prevent errors*/}
+                {(book.authors) && (<div className="book-authors">{book.authors.join('&')}</div>)}
             </div>
         )
     }

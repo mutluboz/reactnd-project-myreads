@@ -9,24 +9,20 @@ class Shelf extends Component {
     }
 
     render() {
-        const shelfs = Helpers.GroupBy(this.props.books, 'shelf')
-
         return (
             <div>
-                {Object.keys(shelfs).map((shelf) => (
-                    <div className="bookshelf" key={shelf}>
-                        <h2 className="bookshelf-title">{Helpers.InitCap(Helpers.SplitCamelCaseText(shelf))}</h2>
-                        <div className="bookshelf-books">
-                            <ol className="books-grid">
-                                {shelfs[shelf].map((book) => (
-                                    <li key={book.id}>
-                                        <Book book={book} onUpdateBook={this.props.onUpdateBook} />
-                                    </li>
-                                ))}
-                            </ol>
-                        </div>
+                <div className="bookshelf" key={this.props.shelfName}>
+                    {(this.props.shelfName && (<h2 className="bookshelf-title">{Helpers.InitCap(Helpers.SplitCamelCaseText(this.props.shelfName))}</h2>))}
+                    <div className="bookshelf-books">
+                        <ol className="books-grid">
+                            {this.props.books.map((book) => (
+                                <li key={book.id}>
+                                    <Book book={book} onUpdateBook={this.props.onUpdateBook} />
+                                </li>
+                            ))}
+                        </ol>
                     </div>
-                ))}
+                </div>
             </div>
         )
     }
