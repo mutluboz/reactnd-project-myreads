@@ -42,7 +42,7 @@ class SearchBook extends Component {
                         />
                     </div>
                 </div>
-                <Shelf books={this.props.currentBookList.slice()} onUpdateBook={this.props.onUpdateBook} /> 
+                <Shelf books={this.state.searchResult} onUpdateBook={this.props.onUpdateBook} /> 
             </div>
         )
     }
