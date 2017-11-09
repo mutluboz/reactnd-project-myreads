@@ -3,15 +3,32 @@ import ShelfPicker from '../components/ShelfPicker'
 
 //todo: add onUpdateBook to jsProps
 class Book extends Component {
+
+    state = {
+        updating: false
+    }
+
+    updateShelf = (book, newShelf) => {
+        this.setState({ updating: true });
+        this.props.onUpdateBook(book, newShelf);
+    }
+
     render() {
 
-        const { book, onUpdateBook } = this.props;
+        const { book } = this.props;
+        const { updating } = this.state;
 
         return (
             <div className="book">
                 <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
-                    <ShelfPicker onUpdateBook={onUpdateBook} book={book} />
+                    {(updating) && <div className="loading"></div>}
+                    <div className={`book-cover${(updating) && ' faded'}`} style={{
+                        width: 128,
+                        height: 193,
+                        backgroundImage: `url(${(book.imageLinks) && (book.imageLinks.thumbnail)})`
+                    }}>
+                    </div>
+                    <ShelfPicker onUpdateBook={this.updateShelf} book={book} updating={this.state.updating} />
                 </div>
                 <div className="book-title">{book.title}</div>
                 {/*check book.authors for null to prevent errors*/}

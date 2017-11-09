@@ -121,6 +121,7 @@ body, .app {
 
 .book {
   width: 140px;
+  position: relative;
 }
 .book-title,
 .book-authors {
@@ -171,4 +172,29 @@ body, .app {
   padding: 20px 10px 0;
   text-align: center;
   font-size: 0.8em;
+}
+
+.loading{
+  position: absolute;
+  z-index: 2;
+  display: block;
+  top: 50%;
+  left: 32%;
+  width: 35px;
+  height: 35px;
+  background-image: url('./icons/loading.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 35px;
+  font-size: 0;
+}
+
+.faded
+{
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.2;
+  z-index: 1;
 }

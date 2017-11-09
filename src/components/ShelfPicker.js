@@ -10,8 +10,9 @@ const ShelfPicker = function (props) {
   ];
 
   return (
-    <div className="book-shelf-changer">
-      <select onChange={(event) => (props.onUpdateBook(props.book, event.target.value))} defaultValue={props.book.shelf ? props.book.shelf : 'none'}>
+    <div className="book-shelf-changer" hidden={props.updating}>
+      <select onChange={(event) => (props.onUpdateBook(props.book, event.target.value))}
+        defaultValue={props.book.shelf ? props.book.shelf : 'none'}>
         {options.map((option) => (
           <option key={option.value}
             value={option.value}

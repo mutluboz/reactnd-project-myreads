@@ -10,9 +10,22 @@ class SearchBook extends Component {
 
     Search = (criteria) => {
         if (criteria) {
-            this.props.onSearchBooks(criteria).then((searchResult) => (
-                this.setState({ searchResult })
-            ))
+            this.props.onSearchBooks(criteria).then((searchResult) => {
+                //if no matching books found then return an empty array
+                if (searchResult.error) {
+                    this.setState({ searchResult: [] })
+                } else {
+                    //set shelf info of search results by comparing the list with props.books
+                    const resWithShelfInfo = searchResult.map((res) => {
+                        var myBook = this.props.currentBookList.find(b => b.id === res.id);
+                        if (myBook) {
+                            return Object.assign({}, res, { "shelf": myBook.shelf });
+                        } else
+                            return res;
+                    });
+                    this.setState({ searchResult: resWithShelfInfo });
+                }
+            });
         }
     }
 
@@ -24,12 +37,12 @@ class SearchBook extends Component {
                     <div className="search-books-input-wrapper">
                         <input
                             type="text"
-                            onKeyDown={(event) => this.Search(event.target.value)}
+                            onChange={(event) => this.Search(event.target.value)}
                             placeholder="Search by title or author"
                         />
                     </div>
                 </div>
-                <Shelf books={this.state.searchResult} onUpdateBook={this.props.onUpdateBook} />
+                <Shelf books={this.props.currentBookList.slice()} onUpdateBook={this.props.onUpdateBook} /> 
             </div>
         )
     }

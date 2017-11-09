@@ -16,28 +16,28 @@ class BooksApp extends React.Component {
       this.setState({ books: books.filter(b => b.shelf !== 'none') })
     })
   }
-  //todo: sort books by shelf -->asc
 
   updateBook = (book, newShelf) => {
-    //todo:consider api errors
-    BooksAPI.update(book, newShelf);
+    BooksAPI.update(book, newShelf).then((res) => {
+      this.setState(function (prevState) {
+        let newBooks = [];
+        const prevBooks = prevState.books;
 
-    let newBooks = [];
+        if (prevBooks.find(b => b.id === book.id)) {//update existing book
+          //Create a new array from state with map and update the record
+          newBooks = prevBooks.map((b) => (
+            b.id === book.id ? Object.assign({}, b, { "shelf": newShelf }) : b
+          ));
+        } else { //add a new book to state
+          newBooks = prevBooks.concat([
+            Object.assign({}, book, { "shelf": newShelf })
+          ]);
+        }
 
-    //todo: fix buggy
-    if (this.state.books.indexOf(b => b.id === book.id) > -1) {//update existing book
-      //state should be immutable. Create a new array from state with map and update the record
-      newBooks = this.state.books.map((b) => (
-        b.id === book.id ? Object.assign({}, b, { "shelf": newShelf }) : b
-      ));
-    } else { //add a new book to state
-      newBooks = this.state.books.slice();
-      book.shelf = newShelf;
-      newBooks.push(book);
-    }
-
-    this.setState({
-      books: newBooks.filter(b => b.shelf !== 'none')
+        return {
+          books: newBooks.filter(b => b.shelf !== 'none')
+        }
+      });
     })
   }
 
@@ -52,7 +52,7 @@ class BooksApp extends React.Component {
           <BookList books={this.state.books} onUpdateBook={this.updateBook} />
         )} />
         <Route path='/search' render={({ history }) => (
-          <SearchBook onSearchBooks={this.searchBooks} onUpdateBook={this.updateBook} />
+          <SearchBook onSearchBooks={this.searchBooks} onUpdateBook={this.updateBook} currentBookList={this.state.books} />
         )} />
       </div>
     )

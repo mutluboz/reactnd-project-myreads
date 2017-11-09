@@ -19,8 +19,12 @@ class BookList extends Component {
                 </div>
                 <div className="list-books-content">
                     <div>
-                        {Object.keys(shelfs).map((shelf) => (
-                            <Shelf key={shelf} books={shelfs[shelf]} shelfName={shelf} onUpdateBook={this.props.onUpdateBook} />
+                        {Object.keys(shelfs).sort().map((shelf) => (
+                            <Shelf key={shelf}
+                                books={shelfs[shelf]}
+                                shelfName={shelf}
+                                onUpdateBook={this.props.onUpdateBook}
+                            />
                         ))}
                     </div>
                     <div className="open-search">
