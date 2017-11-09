@@ -13,6 +13,12 @@ class Book extends Component {
         this.props.onUpdateBook(book, newShelf);
     }
 
+    componentWillReceiveProps() {
+        //cancel loading animation
+        if(this.state.updating)
+            this.setState({ updating: false });
+    }
+
     render() {
 
         const { book } = this.props;
